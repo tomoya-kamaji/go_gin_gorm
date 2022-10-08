@@ -1,7 +1,7 @@
-package user
+package hunter
 
 import (
-	helpers2 "yu-croco/ddd_on_golang/pkg/adapter/controller/helpers"
+	"fmt"
 	"github.com/gin-gonic/gin"
 )
 
@@ -9,6 +9,6 @@ type UsersController struct{}
 
 
 func (ctrl UsersController) Index(c *gin.Context) {
-	slice := [] string{"Golang", "Java"}
-	helpers2.Response(c, slice, nil)
+	fmt.Printf("\"こんにちンは\": %v\n", "こんにちンは")
+	
 }
