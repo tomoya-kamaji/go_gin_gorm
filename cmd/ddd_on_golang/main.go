@@ -2,11 +2,13 @@ package main
 
 import (
 	"fmt"
-	"github.com/gin-gonic/gin"
 	"os"
 	hunter2 "yu-croco/ddd_on_golang/pkg/adapter/controller/hunter"
 	monster2 "yu-croco/ddd_on_golang/pkg/adapter/controller/monster"
+	user2 "yu-croco/ddd_on_golang/pkg/adapter/controller/user"
 	infrastructure2 "yu-croco/ddd_on_golang/pkg/infrastructure"
+
+	"github.com/gin-gonic/gin"
 )
 
 func main() {
@@ -36,6 +38,12 @@ func main() {
 
 		monsterAttackCtrl := monster2.MonsterAttackController{}
 		monsters.PUT("/:id/attack", monsterAttackCtrl.Update)
+	}
+
+	users := r.Group("/users")
+	{
+		userCtrl := user2.UsersController{}
+		users.GET("/", userCtrl.Index)
 	}
 
 	if err := r.Run(); err != nil {
