@@ -17,8 +17,7 @@ func (repo userQueryImpl) FindAll() *model2.Users {
 	db := infrastructure2.GetDB()
 	userDaos := dto2.Users{}
 
-	db.Preload("Users").Find(&userDaos)
-
+	db.Find(&userDaos)
 
 	return userDaos.ConvertToModel()
 }
