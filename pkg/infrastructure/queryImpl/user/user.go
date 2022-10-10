@@ -1,9 +1,9 @@
 package user
 
 import (
-	model2 "yu-croco/ddd_on_golang/pkg/domain/model"
+ "yu-croco/ddd_on_golang/pkg/domain/user"
 	infrastructure2 "yu-croco/ddd_on_golang/pkg/infrastructure"
-	dto2 "yu-croco/ddd_on_golang/pkg/infrastructure/dto"
+	"yu-croco/ddd_on_golang/pkg/infrastructure/dto"
 	query2 "yu-croco/ddd_on_golang/pkg/query"
 )
 
@@ -13,11 +13,11 @@ func NewUserQueryImpl() query2.UserQuery {
 	return &userQueryImpl{}
 }
 
-func (repo userQueryImpl) FindAll() *model2.Users {
+func (repo userQueryImpl) FindAll() *user.User {
 	db := infrastructure2.GetDB()
-	userDaos := dto2.Users{}
+	userEntity := dto.UserEntity{}
 
-	db.Find(&userDaos)
+	db.Find(&userEntity)
 
-	return userDaos.ConvertToModel()
+	return userEntity.ConvertToModel()
 }
