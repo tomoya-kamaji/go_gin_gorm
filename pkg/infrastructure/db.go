@@ -41,7 +41,7 @@ func autoMigrate() {
 		AutoMigrate(&dto2.MonsterMaterial{}).
 		AutoMigrate(&dto2.Hunter{}).
 		AutoMigrate(&dto2.HuntedMonsterMaterial{}).
-		AutoMigrate(&dto2.User{})
+		AutoMigrate(&dto2.UserEntity{})
 }
 
 func execSeeds() {

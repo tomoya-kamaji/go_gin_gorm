@@ -43,6 +43,7 @@ func main() {
 	users := r.Group("/users")
 	{
 		userCtrl := user2.UsersController{}
+		users.GET("/:id", userCtrl.Detail)
 		users.GET("/", userCtrl.Index)
 	}
 

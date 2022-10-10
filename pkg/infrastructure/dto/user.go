@@ -9,6 +9,10 @@ type UserEntity struct {
 	Name         string
 }
 
+func (u *UserEntity) TableName() string {
+	return "user"
+}
+
 func (u *UserEntity) ConvertToModel() *user.User {
 	return user.NewUser(user.UserId(u.ID), user.UserName(u.Name))
 }
