@@ -1,4 +1,4 @@
-package monster
+package userUsecase
 
 import (
 	"yu-croco/ddd_on_golang/pkg/domain/user"
@@ -14,37 +14,18 @@ type fetchUserDetailUsecase interface {
 	Run() (*user.User, *errors.AppError)
 }
 
-func NewFetchUserDetailUsecaseImpl(userId , monsterId model3.MonsterId,
-	hunterRepository repository2.HunterRepository,
-	monsterRepository repository2.MonsterRepository) attackHunterUseCase {
-
-	return attackHunterUseCaseImpl{
-		HunterId:          hunterId,
-		MonsterId:         monsterId,
-		HunterRepository:  hunterRepository,
-		MonsterRepository: monsterRepository,
+func NewFetchUserDetailUsecaseImpl(userId user.UserId, userRepository user.UserRepository) fetchUserDetailUsecase {
+	return fetchUserDetailUsecaseImpl{
+		UserId:          userId,
+		UserRepository:  userRepository,
 	}
 }
 
-func (impl attackHunterUseCaseImpl) Exec() (*model2.Hunter, *errors2.AppError) {
-	hunter, hunterFindErr := impl.HunterRepository.FindById(impl.HunterId)
-	if hunterFindErr.HasErrors() {
-		return nil, hunterFindErr
-	}
 
-	monster, monsterFindErr := impl.MonsterRepository.FindById(impl.MonsterId)
-	if monsterFindErr.HasErrors() {
-		return nil, monsterFindErr
+func (impl fetchUserDetailUsecaseImpl) Run() (*user.User, *errors.AppError) {
+	user, userFindErr := impl.UserRepository.FindById(impl.UserId)
+	if userFindErr.HasErrors() {
+		return nil, userFindErr
 	}
-
-	monsterAttackDamage := service2.CalculateAttackHunterDamage(monster, hunter)
-	damagedHunter, attackErr := monster.Attack(hunter, monsterAttackDamage)
-	if attackErr.HasErrors() {
-		return nil, attackErr
-	}
-	updatedHunter, updateErr := impl.HunterRepository.Update(damagedHunter)
-	if updateErr.HasErrors() {
-		return nil, updateErr
-	}
-	return updatedHunter, nil
+	return user, nil
 }
