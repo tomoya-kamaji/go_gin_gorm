@@ -2,7 +2,7 @@ package repositoryImpl
 
 import (
 	"yu-croco/ddd_on_golang/pkg/domain/user"
-	errors2 "yu-croco/ddd_on_golang/pkg/errors"
+	"yu-croco/ddd_on_golang/pkg/errors"
 	infrastructure2 "yu-croco/ddd_on_golang/pkg/infrastructure"
 	"yu-croco/ddd_on_golang/pkg/infrastructure/dto"
 )
@@ -13,9 +13,9 @@ func NewUserRepositoryImpl() user.UserRepository {
 	return &userRepositoryImpl{}
 }
 
-func (repositoryImpl *userRepositoryImpl) FindById(id user.UserId) (*user.User, *errors2.AppError) {
+func (repositoryImpl *userRepositoryImpl) FindById(id user.UserId) (*user.User, *errors.AppError) {
 	db := infrastructure2.GetDB()
-	var err errors2.AppError
+	var err errors.AppError
 	userEntity := dto.UserEntity{}
 
 	if db.Find(&userEntity, dto.UserEntity{ID: uint(id)}).RecordNotFound() {
@@ -27,6 +27,6 @@ func (repositoryImpl *userRepositoryImpl) FindById(id user.UserId) (*user.User, 
 }
 
 
-func notFoundUserError(id user.UserId) errors2.AppError {
-	return errors2.NewAppError("userは見つかりませんでした")
+func notFoundUserError(id user.UserId) errors.AppError {
+	return errors.NewAppError("userは見つかりませんでした")
 }

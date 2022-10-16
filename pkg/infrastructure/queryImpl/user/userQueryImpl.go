@@ -1,4 +1,4 @@
-package user
+package queryImpl
 
 import (
  "yu-croco/ddd_on_golang/pkg/domain/user"

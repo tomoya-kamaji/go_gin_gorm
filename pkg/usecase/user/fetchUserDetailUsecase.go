@@ -1,4 +1,4 @@
-package userUsecase
+package usecase
 
 import (
 	"yu-croco/ddd_on_golang/pkg/domain/user"
