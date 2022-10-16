@@ -45,6 +45,7 @@ func main() {
 		userCtrl := user2.UsersController{}
 		users.GET("/:id", userCtrl.Detail)
 		users.GET("/", userCtrl.Index)
+		users.POST("/", userCtrl.Create)
 	}
 
 	if err := r.Run(); err != nil {
