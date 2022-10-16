@@ -2,11 +2,12 @@ package infrastructure
 
 import (
 	"fmt"
-	"github.com/jinzhu/gorm"
-	_ "github.com/jinzhu/gorm/dialects/postgres"
 	"time"
 	dto2 "yu-croco/ddd_on_golang/pkg/infrastructure/dto"
 	seeds2 "yu-croco/ddd_on_golang/pkg/infrastructure/seeds"
+
+	"github.com/jinzhu/gorm"
+	_ "github.com/jinzhu/gorm/dialects/postgres"
 )
 
 var (
@@ -39,7 +40,8 @@ func autoMigrate() {
 		AutoMigrate(&dto2.Monster{}).
 		AutoMigrate(&dto2.MonsterMaterial{}).
 		AutoMigrate(&dto2.Hunter{}).
-		AutoMigrate(&dto2.HuntedMonsterMaterial{})
+		AutoMigrate(&dto2.HuntedMonsterMaterial{}).
+		AutoMigrate(&dto2.UserEntity{})
 }
 
 func execSeeds() {
@@ -47,5 +49,6 @@ func execSeeds() {
 		Create(&seeds2.MonsterSeed).
 		Create(&seeds2.MonsterSeed2).
 		Create(&seeds2.HunterSeed).
-		Create(&seeds2.HunterSeed2)
+		Create(&seeds2.HunterSeed2).
+		Create(&seeds2.UserSeed)
 }

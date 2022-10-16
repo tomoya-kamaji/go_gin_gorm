@@ -1,9 +1,9 @@
 package query
 
 import (
-	model2 "yu-croco/ddd_on_golang/pkg/domain/model"
+	"yu-croco/ddd_on_golang/pkg/domain/user"
 )
 
 type UserQuery interface {
-	FindAll() *model2.Users
+	FindAll() *user.User
 }

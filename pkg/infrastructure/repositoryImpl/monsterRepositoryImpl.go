@@ -44,5 +44,5 @@ func (repositoryImpl *monsterRepositoryImpl) Update(monster *model2.Monster) (*m
 }
 
 func notFoundMonsterError(id model2.MonsterId) errors2.AppError {
-	return errors2.NewAppError("id " + string(id) + "のmonsterは見つかりませんでした")
+	return errors2.NewAppError("monsterは見つかりませんでした")
 }

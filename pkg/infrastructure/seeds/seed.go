@@ -65,3 +65,8 @@ var HunterSeed2 = dto2.Hunter{
 	OffensePower:    310,
 	HuntedMaterials: materials2,
 }
+
+var UserSeed = dto2.UserEntity{
+	ID:              1,
+	Name:            "ユーザ",
+}

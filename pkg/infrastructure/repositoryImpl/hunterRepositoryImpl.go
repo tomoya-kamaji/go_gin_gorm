@@ -66,7 +66,7 @@ func (repositoryImpl *hunterRepositoryImpl) AddMonsterMaterial(hunter *model2.Hu
 }
 
 func notFoundHunterError(id model2.HunterId) errors2.AppError {
-	return errors2.NewAppError("id " + string(id) + "のhunterは見つかりませんでした")
+	return errors2.NewAppError("hunterは見つかりませんでした")
 }
 
 func notFoundMaterialError(material string) errors2.AppError {
