@@ -11,7 +11,7 @@ func NewUserId(id int) (*UserId, *errors.AppError) {
 	return &userId, nil
 }
 
-func CreateUserId() (*UserId, *errors.AppError) {
+func CreateUserId() (*UserId) {
 	userId := UserId(rand.Intn(10000))
-	return &userId, nil
+	return &userId
 }

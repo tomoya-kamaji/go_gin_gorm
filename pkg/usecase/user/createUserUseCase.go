@@ -22,11 +22,12 @@ func NewCreateUserUsecaseImpl(userName string, userRepository user.UserRepositor
 }
 
 func (impl createUserUsecaseImpl) Run() (*user.User, *errors.AppError) {
-	userId, err := user.CreateUserId()
-	if(err.HasErrors()){
-		return nil, err
+	userId := user.CreateUserId()
+	userName,userNameErr := user.NewUserName(impl.UserName)
+	if userNameErr.HasErrors() {
+		return nil, userNameErr
 	}
-	user := user.NewUser(*userId,user.UserName(impl.UserName))
+	user := user.NewUser(*userId,*userName)
 	saveUser, userSaveErr := impl.UserRepository.Save(user)
 	if userSaveErr.HasErrors() {
 		return nil, userSaveErr

@@ -30,14 +30,13 @@ func (repositoryImpl *userRepositoryImpl) Save(user *user.User) (*user.User, *er
 	db := infrastructure2.GetDB()
 	userEntity := dto.UserEntity{}
 
-	// 存在すれば作成、存在しなければ更新
 	if db.Find(&userEntity, dto.UserEntity{ID: uint(user.Id)}).RecordNotFound() {
 		userEntity.ID = uint(user.Id)
 		userEntity.Name = string(user.Name)
 	} else {
 		userEntity.Name = string(user.Name)
 	}
-	db.Save(userEntity)
+	db.Save(&userEntity)
 	return userEntity.ConvertToModel(), nil
 }
 

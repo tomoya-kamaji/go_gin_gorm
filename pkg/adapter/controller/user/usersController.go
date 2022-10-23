@@ -1,7 +1,7 @@
 package controller
 
 import (
-	"fmt"
+	"net/http"
 	"yu-croco/ddd_on_golang/pkg/adapter/controller/helpers"
 	"yu-croco/ddd_on_golang/pkg/domain/user"
 	queryImpl "yu-croco/ddd_on_golang/pkg/infrastructure/queryImpl/user"
@@ -12,6 +12,10 @@ import (
 )
 
 type UsersController struct{}
+
+type CreateUserRequest struct {
+	Name  string `json:"name"`
+}
 
 
 func (ctrl UsersController) Index(c *gin.Context) {
@@ -30,10 +34,11 @@ func (ctrl UsersController) Detail(c *gin.Context) {
 }
 
 func (ctrl UsersController) Create(c *gin.Context) {
-		buf := make([]byte, 2048)
-		n, _ := c.Request.Body.Read(buf)
-		b := string(buf[0:n])
-		fmt.Println(b)
-		result, errs := usecase.NewCreateUserUsecaseImpl(c.Param("name"), repositoryImpl.NewUserRepositoryImpl()).Run()
+		var requestJson CreateUserRequest
+		if err := c.ShouldBindJSON(&requestJson); err != nil {
+			c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+			return
+		}
+		result, errs := usecase.NewCreateUserUsecaseImpl(requestJson.Name, repositoryImpl.NewUserRepositoryImpl()).Run()
 		helpers.Response(c, result, errs)
 }
