@@ -42,3 +42,17 @@ func (ctrl UsersController) Create(c *gin.Context) {
 		result, errs := usecase.NewCreateUserUsecaseImpl(requestJson.Name, repositoryImpl.NewUserRepositoryImpl()).Run()
 		helpers.Response(c, result, errs)
 }
+
+func (ctrl UsersController) Update(c *gin.Context) {
+		userId, err := user.NewUserId(helpers.ConvertToInt(c.Param("id")))
+		if err.HasErrors() {
+			helpers.Response(c, nil, err)
+		}
+		var requestJson CreateUserRequest
+		if err := c.ShouldBindJSON(&requestJson); err != nil {
+			c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+			return
+		}
+		result, errs := usecase.NewUpdateUserUsecaseImpl(*userId, requestJson.Name ,repositoryImpl.NewUserRepositoryImpl()).Run()
+		helpers.Response(c, result, errs)
+}

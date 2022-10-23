@@ -46,6 +46,7 @@ func main() {
 		users.GET("/:id", userCtrl.Detail)
 		users.GET("/", userCtrl.Index)
 		users.POST("/", userCtrl.Create)
+		users.PUT("/:id", userCtrl.Update)
 	}
 
 	if err := r.Run(); err != nil {
