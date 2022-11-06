@@ -3,6 +3,10 @@ build:
 	cd cmd/ddd_on_golang && \
 	GOOS=linux go build -o ../../bin/main
 
+.Phony:build
+format:
+	go fmt ./...
+
 .Phony:attack_hunter
 attack_hunter:
 	curl -X PUT \

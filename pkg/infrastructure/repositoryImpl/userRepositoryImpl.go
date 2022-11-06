@@ -40,7 +40,6 @@ func (repositoryImpl *userRepositoryImpl) Save(user *user.User) (*user.User, *er
 	return userEntity.ConvertToModel(), nil
 }
 
-
 func notFoundUserError(id user.UserId) errors.AppError {
 	return errors.NewAppError("userは見つかりませんでした")
 }
