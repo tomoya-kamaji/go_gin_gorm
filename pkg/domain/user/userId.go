@@ -4,6 +4,7 @@ import (
 	"math/rand"
 	"yu-croco/ddd_on_golang/pkg/errors"
 )
+
 type UserId int
 
 func NewUserId(id int) (*UserId, *errors.AppError) {
@@ -11,7 +12,7 @@ func NewUserId(id int) (*UserId, *errors.AppError) {
 	return &userId, nil
 }
 
-func CreateUserId() (*UserId) {
+func CreateUserId() *UserId {
 	userId := UserId(rand.Intn(10000))
 	return &userId
 }

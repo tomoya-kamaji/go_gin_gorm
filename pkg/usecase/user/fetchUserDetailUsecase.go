@@ -6,8 +6,8 @@ import (
 )
 
 type fetchUserDetailUsecaseImpl struct {
-	UserId          user.UserId
-	UserRepository  user.UserRepository
+	UserId         user.UserId
+	UserRepository user.UserRepository
 }
 
 type fetchUserDetailUsecase interface {
@@ -16,11 +16,10 @@ type fetchUserDetailUsecase interface {
 
 func NewFetchUserDetailUsecaseImpl(userId user.UserId, userRepository user.UserRepository) fetchUserDetailUsecase {
 	return fetchUserDetailUsecaseImpl{
-		UserId:          userId,
-		UserRepository:  userRepository,
+		UserId:         userId,
+		UserRepository: userRepository,
 	}
 }
-
 
 func (impl fetchUserDetailUsecaseImpl) Run() (*user.User, *errors.AppError) {
 	user, userFindErr := impl.UserRepository.FindById(impl.UserId)

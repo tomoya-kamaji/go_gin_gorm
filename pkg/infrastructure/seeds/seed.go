@@ -67,6 +67,6 @@ var HunterSeed2 = dto2.Hunter{
 }
 
 var UserSeed = dto2.UserEntity{
-	ID:              1,
-	Name:            "ユーザ",
+	ID:   1,
+	Name: "ユーザ",
 }

@@ -1,7 +1,7 @@
 package queryImpl
 
 import (
- "yu-croco/ddd_on_golang/pkg/domain/user"
+	"yu-croco/ddd_on_golang/pkg/domain/user"
 	infrastructure2 "yu-croco/ddd_on_golang/pkg/infrastructure"
 	"yu-croco/ddd_on_golang/pkg/infrastructure/dto"
 	query2 "yu-croco/ddd_on_golang/pkg/query"

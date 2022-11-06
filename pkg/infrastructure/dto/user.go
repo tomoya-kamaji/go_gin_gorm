@@ -5,8 +5,8 @@ import (
 )
 
 type UserEntity struct {
-	ID           uint `json:"id" binding:"required"`
-	Name         string
+	ID   uint `json:"id" binding:"required"`
+	Name string
 }
 
 func (u *UserEntity) TableName() string {
