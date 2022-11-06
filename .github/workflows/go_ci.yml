@@ -5,9 +5,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: set up
-        uses: actions/setup-go@v2
+        uses: actions/setup-go@v3
         with:
-          go-version: 1.18
+          go-version: '1.18.0-rc.1' # The Go version to download (if necessary) and use.
           check-latest: true
         id: go
       - name: check out
