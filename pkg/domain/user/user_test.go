@@ -50,7 +50,7 @@ func TestNewUserName(t *testing.T) {
 			},
 			"15文字以上の場合エラー": {
 					name: "1234567890123456",
-					wantErr: pointerLib.ToPointer(errors.NewAppError("UseNameは15文字以下にしてください")),
+					wantErr: pointerLib.ToPointer(errors.NewAppError("UseNameは15文字以下にしてくださ")),
 			},
 	}
 	for name, tc := range cases {
@@ -63,43 +63,3 @@ func TestNewUserName(t *testing.T) {
 			})
 	}
 }
-
-
-
-
-// func TestNewUserName(t *testing.T) {
-// 	_, err := NewUserName("1234567890123456")
-// 	t.Run("userNameが15文字以上の場合エラーが発生", func(t *testing.T) {
-// 		actual := err
-// 		assert.Equal(t, "UseNameは15文字以下にしてください", actual.Errors[0])
-// 	})
-// }
-
-// func TestChangeUserName(t *testing.T) {
-// 	userId, err := NewUserId("id")
-// 	if err != nil {
-// 		t.Fatal(err)
-// 	}
-// 	userName, err := NewUserName("username")
-// 	if err != nil {
-// 		t.Fatal(err)
-// 	}
-// 	user, err := NewUser(*userId, *userName)
-// 	if err != nil {
-// 		t.Fatal(err)
-// 	}
-
-// 	changedUserName, err := NewUserName("changedUserName")
-// 	if err != nil {
-// 		t.Fatal(err)
-// 	}
-
-// 	otherUser := &User{UserId: *userId, Name: *changedUserName}
-// 	user.ChangeName(*changedUserName)
-
-// 	got := user.Name
-// 	want := otherUser.Name
-// 	if got != want {
-// 		t.Errorf("got %s, want %s", got, want)
-// 	}
-// }
