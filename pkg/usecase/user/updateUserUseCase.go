@@ -6,20 +6,20 @@ import (
 )
 
 type UpdateUserUsecaseImpl struct {
-	UserId 						user.UserId
-	UserName          string
-	UserRepository  user.UserRepository
+	UserId         user.UserId
+	UserName       string
+	UserRepository user.UserRepository
 }
 
 type UpdateUserUsecase interface {
 	Run() (*user.User, *errors.AppError)
 }
 
-func NewUpdateUserUsecaseImpl(userId user.UserId ,userName string, userRepository user.UserRepository) UpdateUserUsecase {
+func NewUpdateUserUsecaseImpl(userId user.UserId, userName string, userRepository user.UserRepository) UpdateUserUsecase {
 	return UpdateUserUsecaseImpl{
-		UserId: userId,
-		UserName:          userName,
-		UserRepository:  userRepository,
+		UserId:         userId,
+		UserName:       userName,
+		UserRepository: userRepository,
 	}
 }
 
