@@ -5,6 +5,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: set up
+        uses: actions/checkout@v3
         uses: actions/setup-go@v3
         with:
           go-version: "1.18"
@@ -18,6 +19,7 @@ jobs:
   test:
     runs-on: ubuntu-latest
       - name: set up
+        uses: actions/checkout@v3
         uses: actions/setup-go@v3
         with:
           go-version: "1.18"
