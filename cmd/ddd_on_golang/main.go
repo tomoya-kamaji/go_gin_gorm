@@ -5,6 +5,7 @@ import (
 	"os"
 	hunter2 "yu-croco/ddd_on_golang/pkg/adapter/controller/hunter"
 	monster2 "yu-croco/ddd_on_golang/pkg/adapter/controller/monster"
+	task "yu-croco/ddd_on_golang/pkg/adapter/controller/task"
 	user2 "yu-croco/ddd_on_golang/pkg/adapter/controller/user"
 	infrastructure2 "yu-croco/ddd_on_golang/pkg/infrastructure"
 
@@ -43,10 +44,16 @@ func main() {
 	users := r.Group("/users")
 	{
 		userCtrl := user2.UsersController{}
-		users.GET("/:id", userCtrl.Detail)
 		users.GET("/", userCtrl.Index)
 		users.POST("/", userCtrl.Create)
 		users.PUT("/:id", userCtrl.Update)
+	}
+
+	tasks := r.Group("/tasks")
+	{
+		taskCtrl := task.TasksController{}
+		tasks.GET("/", taskCtrl.Search)
+		tasks.POST("/create_index", taskCtrl.CreateIndex)
 	}
 
 	if err := r.Run(); err != nil {

@@ -3,7 +3,6 @@ package hunter
 import (
 	helpers2 "yu-croco/ddd_on_golang/pkg/adapter/controller/helpers"
 	model2 "yu-croco/ddd_on_golang/pkg/domain/model"
-	elasticsearch "yu-croco/ddd_on_golang/pkg/infrastructure/elasticSearch"
 	"yu-croco/ddd_on_golang/pkg/infrastructure/queryImpl/hunter"
 	repositoryImpl2 "yu-croco/ddd_on_golang/pkg/infrastructure/repositoryImpl"
 
@@ -25,8 +24,6 @@ func (ctrl HuntersController) Show(c *gin.Context) {
 }
 
 func (ctrl HuntersController) Index(c *gin.Context) {
-	esClient := elasticsearch.ElasticsearchClient{}
-	esClient.CreateIndex()
 
 	result := hunter.NewHunterQueryImpl().FindAll()
 	helpers2.Response(c, result, nil)

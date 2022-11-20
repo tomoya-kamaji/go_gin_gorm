@@ -1,11 +1,14 @@
 .Phony:build
 build:
+	docker-compose build
+	docker-compose up -d
 	cd cmd/ddd_on_golang && \
 	GOOS=linux go build -o ../../bin/main
 
 .Phony:format
 format:
 	go fmt ./...
+	go vet ./...
 
 .Phony:test
 # ANSI color

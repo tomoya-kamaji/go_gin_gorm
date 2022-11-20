@@ -8,19 +8,19 @@ import (
 
 func TestTimes(t *testing.T) {
 	cases := map[string]struct {
-		doller  *Doller
-		multiplier  int
-		want    *Doller
+		doller     *Doller
+		multiplier int
+		want       *Doller
 	}{
 		"5ドルに2を乗算して10が返却される": {
-			doller:   NewDoller(5),
+			doller:     NewDoller(5),
 			multiplier: 2,
-			want: NewDoller(10),
+			want:       NewDoller(10),
 		},
 		"2ドルに6を乗算して12が返却される": {
-			doller:   NewDoller(2),
+			doller:     NewDoller(2),
 			multiplier: 6,
-			want: NewDoller(12),
+			want:       NewDoller(12),
 		},
 	}
 
