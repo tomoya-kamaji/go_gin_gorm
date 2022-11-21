@@ -14,6 +14,11 @@ func (ctrl TasksController) CreateIndex(c *gin.Context) {
 	esAdapter.CreateIndex()
 }
 
+func (ctrl TasksController) Import(c *gin.Context) {
+	esAdapter := elasticsearch.NewElasticSearchAdapter()
+	esAdapter.CreateIndex()
+}
+
 func (ctrl TasksController) Search(c *gin.Context) {
 	esAdapter := elasticsearch.NewElasticSearchAdapter()
 	fmt.Printf("esAdapter: %v\n", esAdapter)

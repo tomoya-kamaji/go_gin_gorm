@@ -4,7 +4,6 @@ import (
 	"net/http"
 	"yu-croco/ddd_on_golang/pkg/adapter/controller/helpers"
 	"yu-croco/ddd_on_golang/pkg/domain/user"
-	elasticsearch "yu-croco/ddd_on_golang/pkg/infrastructure/elasticSearch"
 	queryImpl "yu-croco/ddd_on_golang/pkg/infrastructure/queryImpl/user"
 	"yu-croco/ddd_on_golang/pkg/infrastructure/repositoryImpl"
 	usecase "yu-croco/ddd_on_golang/pkg/usecase/user"
@@ -23,10 +22,6 @@ func (ctrl UsersController) Index(c *gin.Context) {
 	helpers.Response(c, result, nil)
 }
 
-func (ctrl UsersController) Search(c *gin.Context) {
-	esAdapter := elasticsearch.NewElasticSearchAdapter()
-	esAdapter.CreateIndex()
-}
 
 func (ctrl UsersController) Detail(c *gin.Context) {
 	userID, err := user.NewUserId(helpers.ConvertToInt(c.Param("id")))

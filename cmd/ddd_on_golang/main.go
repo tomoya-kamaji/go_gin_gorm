@@ -53,6 +53,7 @@ func main() {
 	{
 		taskCtrl := task.TasksController{}
 		tasks.GET("/", taskCtrl.Search)
+		tasks.POST("/", taskCtrl.Import)
 		tasks.POST("/create_index", taskCtrl.CreateIndex)
 	}
 

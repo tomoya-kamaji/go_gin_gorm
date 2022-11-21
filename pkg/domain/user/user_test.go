@@ -30,7 +30,6 @@ func TestNewUser(t *testing.T) {
 			if diff := cmp.Diff(res, tc.want); diff != "" {
 				t.Errorf("X value is mismatch (-want +got):%s\n", diff)
 			}
-
 		})
 	}
 }

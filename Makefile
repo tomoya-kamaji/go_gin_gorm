@@ -1,5 +1,9 @@
 .Phony:build
 build:
+	cd cmd/ddd_on_golang && \
+	GOOS=linux go build -o ../../bin/main
+
+docker_build:
 	docker-compose build
 	docker-compose up -d
 	cd cmd/ddd_on_golang && \
