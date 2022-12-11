@@ -13,6 +13,6 @@ func NewUserId(id int) (*UserId, *errors.AppError) {
 }
 
 func CreateUserId() *UserId {
-	userId := UserId(rand.Intn(10000))
+	userId := UserId(rand.Intn(1000000))
 	return &userId
 }

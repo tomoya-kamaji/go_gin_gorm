@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"os"
+	cli "yu-croco/ddd_on_golang/pkg/adapter/controller/cli"
 	hunter2 "yu-croco/ddd_on_golang/pkg/adapter/controller/hunter"
 	monster2 "yu-croco/ddd_on_golang/pkg/adapter/controller/monster"
 	task "yu-croco/ddd_on_golang/pkg/adapter/controller/task"
@@ -55,6 +56,13 @@ func main() {
 		tasks.GET("/", taskCtrl.Search)
 		tasks.POST("/create_index", taskCtrl.CreateIndex)
 	}
+
+	clis := r.Group("/clis")
+	{
+		cliCtrl := cli.ClisController{}
+		clis.POST("/", cliCtrl.Run)
+	}
+
 
 	if err := r.Run(); err != nil {
 		fmt.Printf("error occured %v", err)
