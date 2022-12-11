@@ -2,7 +2,7 @@ package controller
 
 import (
 	"fmt"
-	"sync"
+	"math/rand"
 	"testing"
 	"time"
 )
@@ -13,92 +13,23 @@ func TestDo(t *testing.T) {
 	})
 }
 
-func fibonacci(c, quit chan int) {
-	x, y := 0, 1
-	for {
-		select {
-		case c <- x:
-			x, y = y, x+y
-		case <-quit:
-			fmt.Println("quit")
-			return
-		}
-	}
-}
 
-func omikuji(c1, c2, c3 chan int) {
-	for i := 0; i < 10; i++ {
-		select {
-		case <-c1:
-			fmt.Println("大吉")
-		case <-c2:
-			fmt.Println("中吉")
-		case <-c3:
-			fmt.Println("小吉")
-		}
-	}
-}
-
-// func main() {
-// 	c1 := make(chan int)
-// 	c2 := make(chan int)
-// 	c3 := make(chan int)
-// 	// omikuji(c1,c2,c3)
-// 	result := string[3]
-// 	for i := 0; i < 10; i++ {
-// 		select {
-// 		case <-c1:
-// 			fmt.Println("大吉")
-// 		case <-c2:
-// 			fmt.Println("中吉")
-// 		case <-c3:
-// 			fmt.Println("小吉")
-// 		}
-// 	}
-// 	fmt.Println("終了")
-// }
 
 func main() {
-	var wg sync.WaitGroup
-	ch1 := make(chan rune)
-	ch2 := make(chan int)
-	done := make(chan struct{})
+	src := []int{1, 2, 3, 4, 5}
+	dst := []int{}
 
-	go func() {
-		for {
-			select {
-			case c := <-ch1:
-				fmt.Printf("[R1] %c\n", c)
-			case i := <-ch2:
-				fmt.Println("[R2]", i)
-			case <-done:
-				fmt.Println("Done!")
-				return
-			}
-		}
-	}()
+	// srcの要素毎にある何か処理をして、結果をdstにいれる
+	for _, s := range src {
+		go func(s int) {
+			// 何か(重い)処理をする
+			result := s * 2
 
-	wg.Add(1)
-	go func() {
-		defer wg.Done()
-		for c := 'A'; c <= 'C'; c++ {
-			ch1 <- c
-			time.Sleep(time.Second)
-		}
-	}()
-
-	wg.Add(1)
-	go func() {
-		defer wg.Done()
-		for i := 1; i < 5; i++ {
-			ch2 <- i
-			time.Sleep(500 * time.Millisecond)
-		}
-	}()
-
-	wg.Wait()
-
-	close(done)
+			// 結果をdstにいれる
+			dst = append(dst, result)
+		}(s)
+	}
 
 	time.Sleep(time.Second)
+	fmt.Println(dst)
 }

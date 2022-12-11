@@ -20,14 +20,16 @@ func (ctrl ClisController) Run(c *gin.Context) {
 	var wg sync.WaitGroup
 	wg.Add(1)
 	for i := 0; i < 5; i++ {
-		go createUser(db)
+		go createUser(&wg,db)
 	}
 	fmt.Printf("経過: %vms\n", time.Since(now).Milliseconds())
 }
 
 func createUser(
+	wg *sync.WaitGroup,
 	db *gorm.DB,
 ){
+	defer wg.Done()
 	userEntities := []dto.UserEntity{}
 	for i := 0; i < 1000; i++ {
 		userEntity := dto.UserEntity{}
