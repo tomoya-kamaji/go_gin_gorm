@@ -2,9 +2,7 @@ package controller
 
 import (
 	"fmt"
-	"math/rand"
 	"testing"
-	"time"
 )
 
 func TestDo(t *testing.T) {
@@ -14,22 +12,28 @@ func TestDo(t *testing.T) {
 }
 
 
+// 受信側のフィボナッチ
+func fibonacci(c, quit chan int) {
+	x, y := 0, 1
+	for {
+		select {
+		case c <- x:
+			x, y = y, x+y
+		case <-quit:
+			fmt.Println("quit")
+			return
+		}
+	}
+}
 
 func main() {
-	src := []int{1, 2, 3, 4, 5}
-	dst := []int{}
-
-	// srcの要素毎にある何か処理をして、結果をdstにいれる
-	for _, s := range src {
-		go func(s int) {
-			// 何か(重い)処理をする
-			result := s * 2
-
-			// 結果をdstにいれる
-			dst = append(dst, result)
-		}(s)
-	}
-
-	time.Sleep(time.Second)
-	fmt.Println(dst)
+	c := make(chan int)
+	quit := make(chan int)
+	go func() {
+		for i := 0; i < 10; i++ {
+			fmt.Println(<-c)
+		}
+		quit <- 0
+	}()
+	fibonacci(c, quit)
 }
