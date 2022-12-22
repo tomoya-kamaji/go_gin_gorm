@@ -39,25 +39,6 @@ func omikuji(c1, c2, c3 chan int) {
 	}
 }
 
-// func main() {
-// 	c1 := make(chan int)
-// 	c2 := make(chan int)
-// 	c3 := make(chan int)
-// 	// omikuji(c1,c2,c3)
-// 	result := string[3]
-// 	for i := 0; i < 10; i++ {
-// 		select {
-// 		case <-c1:
-// 			fmt.Println("大吉")
-// 		case <-c2:
-// 			fmt.Println("中吉")
-// 		case <-c3:
-// 			fmt.Println("小吉")
-// 		}
-// 	}
-// 	fmt.Println("終了")
-// }
-
 func main() {
 	var wg sync.WaitGroup
 	ch1 := make(chan rune)
