@@ -14,15 +14,14 @@ func TestFetcher(t *testing.T) {
 }
 
 type Fetcher interface {
-	// Fetch returns the body of URL and
-	// a slice of URLs found on that page.
 	Fetch(url string) (body string, urls []string, err error)
+	IsFetched(url string) bool
 }
 
 // Crawl uses fetcher to recursively crawl
 // pages starting with url, to a maximum of depth.
 func Crawl(url string, depth int, fetcher Fetcher) {
-	if depth <= 0 {
+	if fetcher.IsFetched(url) || depth <= 0 {
 		return
 	}
 	body, urls, err := fetcher.Fetch(url)
@@ -97,4 +96,14 @@ var fetcher = fakeFetcher{
 			"https://golang.org/pkg/",
 		},
 	},
+}
+
+func (f fakeFetcher) IsFetched(url string) bool {
+	mu.Lock()
+	_, ok := fetchedURL[url]
+	if !ok {
+		fetchedURL[url] = true
+	}
+	mu.Unlock()
+	return ok
 }
