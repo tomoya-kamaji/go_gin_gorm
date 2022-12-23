@@ -7,6 +7,7 @@ import (
 	"time"
 )
 
+// https://go-tour-jp.appspot.com/concurrency/10
 func TestFetcher(t *testing.T) {
 	t.Run("並行処理テスト", func(t *testing.T) {
 		main2()
