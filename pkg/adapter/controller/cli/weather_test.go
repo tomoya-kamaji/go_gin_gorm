@@ -1,12 +1,12 @@
 package controller
 
 import (
+	"encoding/csv"
 	"encoding/json"
-	"fmt"
 	"io/ioutil"
 	"log"
 	"net/http"
-	"reflect"
+	"os"
 	"testing"
 )
 
@@ -17,26 +17,24 @@ func TestWeather(t *testing.T) {
 }
 
 func main3() {
-	// 取得する
-	cityCode := "400040"
 	weatherFetcher := WeatherFetcher{}
-	weatherFetcher.Fetch(cityCode)
+	cityCode := "400040"
+	weather := weatherFetcher.fetch(cityCode)
 
-	// CSVにアップロードする
+	records := [][]string{}
+	// ここをループで回す。来たものから作成する
+	records = append(records, []string{weather.Title, weather.Forecasts[0].Date, weather.Forecasts[0].Telop, weather.Link})
+
+	uploadCsv(records)
 }
 
 type WeatherFetcher struct{}
 
-func (f WeatherFetcher) Fetch(cityCode string) (string, []string, error) {
+func (f WeatherFetcher) fetch(cityCode string) Weather {
 	// 天気予報APIのつなぎ込み
 	url := "https://weather.tsukumijima.net/api/forecast/city/" + cityCode
 	weather := getWeather(url)
-	hogeValue := reflect.ValueOf(weather)
-	hogeType := reflect.TypeOf(weather)
-	fmt.Printf("hogeValue: %v\n", hogeValue)
-	fmt.Printf("hogeType: %v\n", hogeType)
-	fmt.Println(weather) // htmlをstringで取得
-	return "", nil, fmt.Errorf("not found: %s", url)
+	return weather
 }
 
 type Weather struct {
@@ -50,13 +48,29 @@ type Forecast struct {
 	Telop string `json:"telop"`
 }
 
+func uploadCsv(records [][]string) {
+	f, err := os.Create("weather.csv")
+	if err != nil {
+		log.Fatal(err)
+	}
+	w := csv.NewWriter(f)
+	for _, record := range records {
+		if err := w.Write(record); err != nil {
+			log.Fatal(err)
+		}
+	}
+	w.Flush()
+	if err := w.Error(); err != nil {
+		log.Fatal(err)
+	}
+}
+
 func getWeather(url string) Weather {
 	response, err := http.Get(url)
 	if err != nil {
 		log.Fatalf("Connection Error: %v", err)
 	}
 	defer response.Body.Close()
-
 	byte, err := ioutil.ReadAll(response.Body)
 	if err != nil {
 		log.Fatalf("Connection Error: %v", err)
