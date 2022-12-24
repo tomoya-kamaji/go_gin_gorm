@@ -1,7 +1,12 @@
 package controller
 
 import (
+	"encoding/json"
 	"fmt"
+	"io/ioutil"
+	"log"
+	"net/http"
+	"reflect"
 	"testing"
 )
 
@@ -25,43 +30,40 @@ type WeatherFetcher struct{}
 func (f WeatherFetcher) Fetch(cityCode string) (string, []string, error) {
 	// 天気予報APIのつなぎ込み
 	url := "https://weather.tsukumijima.net/api/forecast/city/" + cityCode
+	weather := getWeather(url)
+	hogeValue := reflect.ValueOf(weather)
+	hogeType := reflect.TypeOf(weather)
+	fmt.Printf("hogeValue: %v\n", hogeValue)
+	fmt.Printf("hogeType: %v\n", hogeType)
+	fmt.Println(weather) // htmlをstringで取得
 	return "", nil, fmt.Errorf("not found: %s", url)
 }
 
-type WeatherResult struct {
-	title   string
-	weather string
-	date    string
-	link    string
+type Weather struct {
+	Title     string     `json:"title"`
+	Link      string     `json:"link"`
+	Forecasts []Forecast `json:"forecasts"`
 }
 
-// ここでパースします。
-// func ParseJson(url string) string {
-// 	weather := ""
+type Forecast struct {
+	Date  string `json:"date"`
+	Telop string `json:"telop"`
+}
 
-// 	response, err := http.Get(url)
-// 	if err != nil { // エラーハンドリング
-// 		log.Fatalf("Connection Error: %v", err)
-// 		return "取得できませんでした"
-// 	}
+func getWeather(url string) Weather {
+	response, err := http.Get(url)
+	if err != nil {
+		log.Fatalf("Connection Error: %v", err)
+	}
+	defer response.Body.Close()
 
-// 	// 遅延
-// 	defer response.Body.Close()
-
-// 	body, err := ioutil.ReadAll(response.Body)
-// 	if err != nil {
-// 		log.Fatalf("Connection Error: %v", err)
-// 		return "取得できませんでした"
-// 	}
-
-// 	jsonBytes := ([]byte)(body)
-// 	data := new(WeatherResult)
-// 	if err := json.Unmarshal(jsonBytes, data); err != nil {
-// 		log.Fatalf("Connection Error: %v", err)
-// 	}
-
-// 	if data.Weather != nil {
-// 		weather = data.Weather[0].Main
-// 	}
-// 	return weather
-// }
+	byte, err := ioutil.ReadAll(response.Body)
+	if err != nil {
+		log.Fatalf("Connection Error: %v", err)
+	}
+	var weather Weather
+	if err := json.Unmarshal(byte, &weather); err != nil {
+		log.Fatal(err)
+	}
+	return weather
+}
