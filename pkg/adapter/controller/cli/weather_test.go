@@ -3,16 +3,20 @@ package controller
 import (
 	"encoding/csv"
 	"encoding/json"
+	"fmt"
 	"io/ioutil"
 	"log"
 	"net/http"
 	"os"
 	"testing"
+	"time"
 )
 
 func TestWeather(t *testing.T) {
 	t.Run("並行処理テスト", func(t *testing.T) {
+		now := time.Now()
 		main3()
+		fmt.Printf("経過: %vms\n", time.Since(now).Seconds())
 	})
 }
 
@@ -24,7 +28,6 @@ func main3() {
 	records := [][]string{}
 	// ここをループで回す。来たものから作成する
 	records = append(records, []string{weather.Title, weather.Forecasts[0].Date, weather.Forecasts[0].Telop, weather.Link})
-
 	uploadCsv(records)
 }
 
