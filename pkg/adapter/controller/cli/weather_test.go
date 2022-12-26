@@ -25,13 +25,14 @@ func parallel() {
 	weatherFetcher := WeatherFetcher{}
 	records := [][]string{}
 	// 送信
-	weatherChan := make(chan Weather, len(cityCodes))
+	weatherChan := make(chan Weather)
 	for _, cityCode := range cityCodes {
 		go weatherFetcher.parallelFetch(weatherChan, cityCode)
 	}
 
 	// 受信
-	for weather := range weatherChan {
+	for i := 0; i < len(cityCodes); i++ {
+		weather := <-weatherChan
 		records = append(records, []string{weather.Title, weather.Forecasts[0].Date, weather.Forecasts[0].Telop, weather.Link})
 	}
 	uploadCsv(records)
@@ -62,7 +63,6 @@ func (f WeatherFetcher) parallelFetch(weatherChan chan Weather, cityCode string)
 	url := "https://weather.tsukumijima.net/api/forecast/city/" + cityCode
 	weather := getWeather(url)
 	weatherChan <- weather
-	close(weatherChan)
 }
 
 type Weather struct {
