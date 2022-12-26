@@ -16,7 +16,6 @@ func TestWeather(t *testing.T) {
 	t.Run("並行処理テスト", func(t *testing.T) {
 		now := time.Now()
 		parallel()
-		// single()
 		fmt.Printf("経過: %vms\n", time.Since(now).Seconds())
 	})
 }
