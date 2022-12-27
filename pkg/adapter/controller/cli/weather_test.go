@@ -20,28 +20,29 @@ func TestWeather(t *testing.T) {
 	})
 }
 
-func parallel() {
+func single() {
 	weatherFetcher := WeatherFetcher{}
 	records := [][]string{}
+	for _, cityCode := range cityCodes {
+		weather := weatherFetcher.fetch(cityCode)
+		records = append(records, []string{weather.Title, weather.Forecasts[0].Date, weather.Forecasts[0].Telop, weather.Link})
+	}
+	uploadCsv(records)
+}
+
+func parallel() {
+	weatherFetcher := WeatherFetcher{}
+
 	// 送信
 	weatherChan := make(chan Weather)
 	for _, cityCode := range cityCodes {
 		go weatherFetcher.parallelFetch(weatherChan, cityCode)
 	}
 
-	// 受信
+	records := [][]string{}
+	// 回数分ループで回す
 	for i := 0; i < len(cityCodes); i++ {
 		weather := <-weatherChan
-		records = append(records, []string{weather.Title, weather.Forecasts[0].Date, weather.Forecasts[0].Telop, weather.Link})
-	}
-	uploadCsv(records)
-}
-
-func single() {
-	weatherFetcher := WeatherFetcher{}
-	records := [][]string{}
-	for _, cityCode := range cityCodes {
-		weather := weatherFetcher.fetch(cityCode)
 		records = append(records, []string{weather.Title, weather.Forecasts[0].Date, weather.Forecasts[0].Telop, weather.Link})
 	}
 	uploadCsv(records)
