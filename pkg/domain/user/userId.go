@@ -1,8 +1,8 @@
 package user
 
 import (
-	"math/rand"
 	"yu-croco/ddd_on_golang/pkg/errors"
+	"yu-croco/ddd_on_golang/pkg/lib/uid"
 )
 
 type UserId int
@@ -13,6 +13,6 @@ func NewUserId(id int) (*UserId, *errors.AppError) {
 }
 
 func CreateUserId() *UserId {
-	userId := UserId(rand.Intn(1000000))
+	userId := UserId(uid.CreateUid())
 	return &userId
 }
