@@ -4,7 +4,7 @@ import (
 	"testing"
 )
 
-func TestNewUser(t *testing.T) {
+func TestNewGroup(t *testing.T) {
 	// cases := map[string]struct {
 	// 	Id      UserId
 	// 	Name    UserName
