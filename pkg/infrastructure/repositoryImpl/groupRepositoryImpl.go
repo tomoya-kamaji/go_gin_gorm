@@ -25,7 +25,7 @@ func (repositoryImpl *groupRepositoryImpl) Save(group *group.Group) (*group.Grou
 		groupEntity.Name = string(group.Name)
 	}
 
-	db.Where("group_id = ?", "%1%").Delete(groupUsersEntity)
+	// db.Where("group_id = ?", "%1%").Delete(groupUsersEntity)
 	for _, user := range group.UserIds {
 		groupUsersEntity.GroupId = uint(group.Id)
 		groupUsersEntity.UserId = uint(user)
@@ -35,7 +35,3 @@ func (repositoryImpl *groupRepositoryImpl) Save(group *group.Group) (*group.Grou
 	db.Save(&groupEntity)
 	return nil, nil
 }
-
-// func (u *UserEntity) ConvertToModel() *user.User {
-// 	return user.NewUser(user.UserId(u.ID), user.UserName(u.Name))
-// }

@@ -15,6 +15,11 @@ func NewGroup(id GroupId, name string) *Group {
 	return &Group{Id: id, Name: name, UserIds: make([]user.UserId, 0)}
 }
 
+func CreateGroup(name string) *Group {
+	id := CreateGroupId()
+	return &Group{Id: *id, Name: name, UserIds: make([]user.UserId, 0)}
+}
+
 func (group *Group) AddUser(userId user.UserId) *errors.AppError {
 	//userIdsにuserIdが存在するか確認
 	for _, id := range group.UserIds {
