@@ -6,5 +6,5 @@ type UserEntity struct {
 }
 
 func (u *UserEntity) TableName() string {
-	return "user"
+	return "users"
 }
