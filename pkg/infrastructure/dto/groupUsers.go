@@ -1,6 +1,8 @@
 package dto
 
-import "yu-croco/ddd_on_golang/pkg/domain/user"
+import (
+	"yu-croco/ddd_on_golang/pkg/domain/user"
+)
 
 type GroupUsersEntity struct {
 	GroupId uint

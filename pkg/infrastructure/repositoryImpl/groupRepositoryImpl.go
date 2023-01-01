@@ -2,6 +2,7 @@ package repositoryImpl
 
 import (
 	"yu-croco/ddd_on_golang/pkg/domain/group"
+	"yu-croco/ddd_on_golang/pkg/domain/user"
 	"yu-croco/ddd_on_golang/pkg/errors"
 	infrastructure2 "yu-croco/ddd_on_golang/pkg/infrastructure"
 	"yu-croco/ddd_on_golang/pkg/infrastructure/dto"
@@ -33,5 +34,9 @@ func (repositoryImpl *groupRepositoryImpl) Save(group *group.Group) (*group.Grou
 	}
 
 	db.Save(&groupEntity)
-	return nil, nil
+	return ConvertToModel(&groupEntity), nil
+}
+
+func ConvertToModel(g *dto.GroupEntity) *group.Group {
+	return group.Reconstruct(group.GroupId(g.ID), g.Name, []user.UserId{})
 }
