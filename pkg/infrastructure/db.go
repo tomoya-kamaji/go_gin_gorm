@@ -32,7 +32,7 @@ func Init() *gorm.DB {
 }
 
 func GetDB() *gorm.DB {
-	return db
+	return GetTestDB()
 }
 
 func autoMigrate(db *gorm.DB) {

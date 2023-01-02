@@ -5,5 +5,6 @@ import (
 )
 
 type GroupRepository interface {
-	Save(user *Group) (*Group, *errors.AppError)
+	Save(group *Group) (*Group, *errors.AppError)
+	FindById(id GroupId) (*Group)
 }

@@ -82,9 +82,14 @@ func connectDB(pool *dockertest.Pool) *gorm.DB {
 	return db
 }
 
-func testdbSetup() {
+func InitTest() *gorm.DB {
 	resource, pool := createContainer()
 	defer closeContainer(resource, pool)
 	db := connectDB(pool)
 	defer db.Close()
+	return db
+}
+
+func GetTestDB() *gorm.DB {
+	return db
 }
