@@ -25,13 +25,13 @@ func Reconstruct(id GroupId, name string, userIds []user.UserId) *Group {
 }
 
 func (group *Group) AddUser(userId user.UserId) *errors.AppError {
-	// //userIdsにuserIdが存在するか確認
-	// for _, id := range group.UserIds {
-	// 	if id == userId {
-	// 		err := errors.NewAppError("同一ユーザは追加できない")
-	// 		return &err
-	// 	}
-	// }
+	//userIdsにuserIdが存在するか確認
+	for _, id := range group.UserIds {
+		if id == userId {
+			err := errors.NewAppError("同一ユーザは追加できない")
+			return &err
+		}
+	}
 	group.UserIds = append(group.UserIds, userId)
 	return nil
 }
