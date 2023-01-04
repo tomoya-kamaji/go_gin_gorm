@@ -24,8 +24,8 @@ func Init() *gorm.DB {
 		fmt.Println("db init error: ", err)
 	}
 
-	autoMigrate()
-	execSeeds()
+	autoMigrate(db)
+	execSeeds(db)
 
 	fmt.Println("[INFO]DB setup done!")
 	return db
@@ -35,16 +35,18 @@ func GetDB() *gorm.DB {
 	return db
 }
 
-func autoMigrate() {
+func autoMigrate(db *gorm.DB) {
 	db.
 		AutoMigrate(&dto2.Monster{}).
 		AutoMigrate(&dto2.MonsterMaterial{}).
 		AutoMigrate(&dto2.Hunter{}).
 		AutoMigrate(&dto2.HuntedMonsterMaterial{}).
-		AutoMigrate(&dto2.UserEntity{})
+		AutoMigrate(&dto2.UserEntity{}).
+		AutoMigrate(&dto2.GroupEntity{}).
+		AutoMigrate(&dto2.GroupUsersEntity{})
 }
 
-func execSeeds() {
+func execSeeds(db *gorm.DB) {
 	db.
 		Create(&seeds2.MonsterSeed).
 		Create(&seeds2.MonsterSeed2).

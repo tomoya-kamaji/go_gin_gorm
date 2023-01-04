@@ -27,7 +27,7 @@ func (ctrl ClisController) Run(c *gin.Context) {
 
 func createUser(
 	db *gorm.DB,
-){
+) {
 	userEntities := []dto.UserEntity{}
 	for i := 0; i < 1000; i++ {
 		userEntity := dto.UserEntity{}

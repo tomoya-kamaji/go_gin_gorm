@@ -11,18 +11,27 @@ type Group struct {
 	UserIds []user.UserId `json:"userIds"`
 }
 
-func NewGroup(id GroupId, name string) *Group {
-	return &Group{Id: id, Name: name, UserIds: make([]user.UserId, 0)}
+func NewGroup(id GroupId, name string, userIds []user.UserId) *Group {
+	return &Group{Id: id, Name: name, UserIds: userIds}
+}
+
+func CreateGroup(name string) *Group {
+	id := CreateGroupId()
+	return &Group{Id: *id, Name: name, UserIds: make([]user.UserId, 0)}
+}
+
+func Reconstruct(id GroupId, name string, userIds []user.UserId) *Group {
+	return NewGroup(id, name, userIds)
 }
 
 func (group *Group) AddUser(userId user.UserId) *errors.AppError {
-	//userIdsにuserIdが存在するか確認
-	for _, id := range group.UserIds {
-		if id == userId {
-			err := errors.NewAppError("同一ユーザは追加できない")
-			return &err
-		}
-	}
+	// //userIdsにuserIdが存在するか確認
+	// for _, id := range group.UserIds {
+	// 	if id == userId {
+	// 		err := errors.NewAppError("同一ユーザは追加できない")
+	// 		return &err
+	// 	}
+	// }
 	group.UserIds = append(group.UserIds, userId)
 	return nil
 }

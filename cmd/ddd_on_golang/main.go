@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"os"
 	cli "yu-croco/ddd_on_golang/pkg/adapter/controller/cli"
+	controller "yu-croco/ddd_on_golang/pkg/adapter/controller/group"
 	hunter2 "yu-croco/ddd_on_golang/pkg/adapter/controller/hunter"
 	monster2 "yu-croco/ddd_on_golang/pkg/adapter/controller/monster"
 	task "yu-croco/ddd_on_golang/pkg/adapter/controller/task"
@@ -50,6 +51,12 @@ func main() {
 		users.PUT("/:id", userCtrl.Update)
 	}
 
+	groups := r.Group("/groups")
+	{
+		groupCtrl := controller.GroupsController{}
+		groups.POST("/", groupCtrl.Create)
+	}
+
 	tasks := r.Group("/tasks")
 	{
 		taskCtrl := task.TasksController{}
@@ -62,7 +69,6 @@ func main() {
 		cliCtrl := cli.ClisController{}
 		clis.POST("/", cliCtrl.Run)
 	}
-
 
 	if err := r.Run(); err != nil {
 		fmt.Printf("error occured %v", err)

@@ -11,6 +11,12 @@ func NewUser(id UserId, name UserName) *User {
 	return &User{Id: id, Name: name}
 }
 
+func CreateUser(userName string) *User {
+	id := CreateUserId()
+	name, _ := NewUserName(userName)
+	return &User{Id: *id, Name: *name}
+}
+
 type Users []User
 
 func (user *User) ChangeName(name string) (*User, *errors.AppError) {

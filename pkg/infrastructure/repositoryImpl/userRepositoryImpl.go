@@ -27,7 +27,7 @@ func (repositoryImpl *userRepositoryImpl) FindById(id user.UserId) (*user.User, 
 }
 
 func (repositoryImpl *userRepositoryImpl) Save(user *user.User) (*user.User, *errors.AppError) {
-	db := infrastructure2.GetDB()
+	db := infrastructure2.GetTestDB()
 	userEntity := dto.UserEntity{}
 
 	if db.Find(&userEntity, dto.UserEntity{ID: uint(user.Id)}).RecordNotFound() {
