@@ -16,23 +16,24 @@ func NewGroupRepositoryImpl() group.GroupRepository {
 }
 
 func (repositoryImpl *groupRepositoryImpl) Save(group *group.Group) (*group.Group, *errors.AppError) {
-	fmt.Printf("\"釜\": %v\n", "釜")
-	db := infrastructure2.GetDB()
+	db := infrastructure2.GetTestDB()
 	groupEntity := dto.GroupEntity{}
+	userEntities := []dto.UserEntity{}
 
-	db.Debug().Preload("Users").Find(&groupEntity)
-
+	db.Where("id IN (?)", group.UserIds).Find(&userEntities)
 	groupEntity.ID = uint(group.Id)
 	groupEntity.Name = group.Name
-	db.Debug().Save(&groupEntity)
+	groupEntity.Users = userEntities
+	db.Save(&groupEntity)
 	return ConvertToModel(&groupEntity), nil
 }
 
 func (repositoryImpl *groupRepositoryImpl) FindById(id group.GroupId) *group.Group {
-	db := infrastructure2.GetDB()
+	db := infrastructure2.GetTestDB()
 	groupEntity := dto.GroupEntity{}
 
-	db.Find(&groupEntity, dto.GroupEntity{ID: uint(id)})
+	db.Preload("Users").Find(&groupEntity, dto.GroupEntity{ID: uint(id)})
+	fmt.Printf("groupEntity: %v\n", groupEntity)
 	return ConvertToModel(&groupEntity)
 }
 

@@ -20,10 +20,16 @@ var (
 	dsn      = "postgres://%s:%s@localhost:%s/%s?sslmode=disable"
 )
 
-func createContainer() (*dockertest.Resource, *dockertest.Pool) {
+var (
+	testdb   *gorm.DB
+	resource *dockertest.Resource
+	pool     *dockertest.Pool
+)
+
+func CreateContainer() (*dockertest.Resource, *dockertest.Pool) {
 	// Dockerとの接続
 	pool, err := dockertest.NewPool("")
-	pool.MaxWait = time.Minute * 2
+	pool.MaxWait = time.Minute * 1
 	if err != nil {
 		log.Fatalf("Could not connect to docker: %s", err)
 	}
@@ -54,42 +60,36 @@ func createContainer() (*dockertest.Resource, *dockertest.Pool) {
 	return resource, pool
 }
 
-func closeContainer(resource *dockertest.Resource, pool *dockertest.Pool) {
+func CloseContainer(resource *dockertest.Resource, pool *dockertest.Pool) {
 	// コンテナの終了
+	fmt.Printf("close container")
 	if err := pool.Purge(resource); err != nil {
 		log.Fatalf("Could not purge resource: %s", err)
 	}
 }
 
-func connectDB(pool *dockertest.Pool) *gorm.DB {
-	var db *gorm.DB
+func ConnectDB(pool *dockertest.Pool) *gorm.DB {
 	if err := pool.Retry(func() error {
 		fmt.Println("waiting to db start up....")
 		time.Sleep(time.Second * 3)
 
 		var err error
 		config := fmt.Sprintf(dsn, user, password, port, dbName)
-		db, err = gorm.Open("postgres", config)
+		testdb, err = gorm.Open("postgres", config)
 		if err != nil {
 			return err
 		}
-		return db.DB().Ping()
+		return testdb.DB().Ping()
 	}); err != nil {
 		log.Fatalf("接続エラー: %s", err)
 	}
-	autoMigrate(db)
-	execSeeds(db)
-	return db
-}
-
-func InitTest() *gorm.DB {
-	resource, pool := createContainer()
-	defer closeContainer(resource, pool)
-	db := connectDB(pool)
-	defer db.Close()
-	return db
+	autoMigrate(testdb)
+	execSeeds(testdb)
+	fmt.Println("[INFO]TestDB setup done!")
+	print("testdb: %v", testdb)
+	return testdb
 }
 
 func GetTestDB() *gorm.DB {
-	return db
+	return testdb
 }
