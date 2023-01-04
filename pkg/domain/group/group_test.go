@@ -20,6 +20,11 @@ func TestAddUser(t *testing.T) {
 			userId: user.UserId(1),
 			want:   make([]user.UserId, 0),
 		},
+		"異常パターン：同じユーザは追加できない": {
+			group:  NewGroup(GroupId(1), "エンジニアチーム", []user.UserId{user.UserId(1)}),
+			userId: user.UserId(1),
+			want:   []user.UserId{user.UserId(1)},
+		},
 	}
 	for name, tc := range cases {
 		t.Run(name, func(t *testing.T) {
